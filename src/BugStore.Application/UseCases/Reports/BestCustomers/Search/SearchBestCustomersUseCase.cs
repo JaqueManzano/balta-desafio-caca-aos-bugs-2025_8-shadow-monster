@@ -22,7 +22,7 @@ namespace BugStore.Application.UseCases.Reports.BestCustomers.Search
                 CustomerName = r.CustomerName,
                 CustomerEmail = r.CustomerEmail,
                 TotalOrders = r.TotalOrders,
-                SpentAmount = r.SpentAmount.ToString("C", new CultureInfo("pt-BR"))
+                SpentAmount = r.SpentAmount
             });
         }
     }

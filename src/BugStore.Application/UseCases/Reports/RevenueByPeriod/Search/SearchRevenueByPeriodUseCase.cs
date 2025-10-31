@@ -23,7 +23,7 @@ namespace BugStore.Application.UseCases.Reports.RevenueByPeriod.Search
                 Year = r.Year,
                 Month = r.Month,
                 TotalOrders = r.TotalOrders,
-                TotalRevenue = r.TotalRevenue.ToString("C", new CultureInfo("pt-BR"))
+                TotalRevenue = r.TotalRevenue
             });
         }
     }
