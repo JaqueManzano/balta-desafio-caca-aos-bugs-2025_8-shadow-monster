@@ -144,15 +144,15 @@ namespace BugStore.Infrastructure.Migrations
 
                 migrationBuilder.Sql(@"
                 CREATE OR REPLACE VIEW vw_report_revenue_by_period AS
-              SELECT
-                EXTRACT(YEAR FROM ""o"".""CreatedAt"") AS ""Year"",
-                EXTRACT(MONTH FROM ""o"".""CreatedAt"") AS ""Month"",
-                COUNT(""o"".""Id"") AS ""TotalOrders"",
-                SUM(""ol"".""Total"") AS ""TotalRevenue""
-            FROM ""Orders"" AS ""o""
-            JOIN ""OrderLines"" AS ""ol"" ON ""o"".""Id"" = ""ol"".""OrderId""
-            GROUP BY EXTRACT(YEAR FROM ""o"".""CreatedAt""), EXTRACT(MONTH FROM ""o"".""CreatedAt"")
-            ORDER BY ""Year"", ""Month"";
+                SELECT
+                    EXTRACT(YEAR FROM ""o"".""CreatedAt"") AS ""Year"",
+                    TO_CHAR(""o"".""CreatedAt"", 'MM') AS ""Month"",
+                    COUNT(""o"".""Id"") AS ""TotalOrders"",
+                    SUM(""ol"".""Total"") AS ""TotalRevenue""
+                FROM ""Orders"" AS ""o""
+                JOIN ""OrderLines"" AS ""ol"" ON ""o"".""Id"" = ""ol"".""OrderId""
+                GROUP BY EXTRACT(YEAR FROM ""o"".""CreatedAt""), TO_CHAR(""o"".""CreatedAt"", 'MM')
+                ORDER BY ""Year"", ""Month"";
 
             ");
             }
@@ -169,4 +169,5 @@ namespace BugStore.Infrastructure.Migrations
             migrationBuilder.Sql("DROP TABLE IF EXISTS Customers;");
         }
     }
+
 }
