@@ -2,6 +2,7 @@
 using BugStore.Domain.Models.Reports;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Npgsql;
 
 namespace BugStore.Infrastructure.Data
@@ -66,10 +67,16 @@ namespace BugStore.Infrastructure.Data
                     TrustServerCertificate = true
                 };
 
+                optionsBuilder.ConfigureWarnings(w =>
+                  w.Ignore(RelationalEventId.PendingModelChangesWarning));
+
                 optionsBuilder.UseNpgsql(builder.ConnectionString);
             }
             else
             {
+                optionsBuilder.ConfigureWarnings(w =>
+                  w.Ignore(RelationalEventId.PendingModelChangesWarning));
+
                 optionsBuilder.UseSqlite("Data Source=bugstore-app.db");
             }
 
