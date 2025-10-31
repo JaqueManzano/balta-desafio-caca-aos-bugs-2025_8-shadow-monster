@@ -131,27 +131,29 @@ namespace BugStore.Infrastructure.Migrations
                 migrationBuilder.Sql(@"
                 CREATE OR REPLACE VIEW vw_report_best_customers AS
                 SELECT 
-                    c.Name AS CustomerName,
-                    c.Email AS CustomerEmail,
-                    COUNT(o.Id) AS TotalOrders,
-                    SUM(ol.Total) AS SpentAmount
-                FROM Customers c
-                JOIN Orders o ON c.Id = o.CustomerId
-                JOIN OrderLines ol ON o.Id = ol.OrderId
-                GROUP BY c.Id, c.Name, c.Email;
+                    ""c"".""Name"" AS ""CustomerName"",
+                    ""c"".""Email"" AS ""CustomerEmail"",
+                    COUNT(""o"".""Id"") AS ""TotalOrders"",
+                    SUM(""ol"".""Total"") AS ""SpentAmount""
+                FROM ""Customers"" AS ""c""
+                JOIN ""Orders"" AS ""o"" ON ""c"".""Id"" = ""o"".""CustomerId""
+                JOIN ""OrderLines"" AS ""ol"" ON ""o"".""Id"" = ""ol"".""OrderId""
+                GROUP BY ""c"".""Id"", ""c"".""Name"", ""c"".""Email"";
+
             ");
 
                 migrationBuilder.Sql(@"
                 CREATE OR REPLACE VIEW vw_report_revenue_by_period AS
-                SELECT
-                    EXTRACT(YEAR FROM o.CreatedAt) AS Year,
-                    EXTRACT(MONTH FROM o.CreatedAt) AS Month,
-                    COUNT(o.Id) AS TotalOrders,
-                    SUM(ol.Total) AS TotalRevenue
-                FROM Orders o
-                JOIN OrderLines ol ON o.Id = ol.OrderId
-                GROUP BY EXTRACT(YEAR FROM o.CreatedAt), EXTRACT(MONTH FROM o.CreatedAt)
-                ORDER BY Year, Month;
+              SELECT
+                EXTRACT(YEAR FROM ""o"".""CreatedAt"") AS ""Year"",
+                EXTRACT(MONTH FROM ""o"".""CreatedAt"") AS ""Month"",
+                COUNT(""o"".""Id"") AS ""TotalOrders"",
+                SUM(""ol"".""Total"") AS ""TotalRevenue""
+            FROM ""Orders"" AS ""o""
+            JOIN ""OrderLines"" AS ""ol"" ON ""o"".""Id"" = ""ol"".""OrderId""
+            GROUP BY EXTRACT(YEAR FROM ""o"".""CreatedAt""), EXTRACT(MONTH FROM ""o"".""CreatedAt"")
+            ORDER BY ""Year"", ""Month"";
+
             ");
             }
         }
